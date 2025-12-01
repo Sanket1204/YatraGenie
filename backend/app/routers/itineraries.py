@@ -10,6 +10,11 @@ router = APIRouter(prefix="/api/itineraries", tags=["itineraries"])
 
 @router.post("/", response_model=schemas.ItineraryResponse)
 def create_itinerary(req: schemas.ItineraryRequest, db: Session = Depends(get_db)):
+    print(f"DEBUG: Received request: {req}")
+    print(f"DEBUG: destination_city_id type: {type(req.destination_city_id)}, value: {req.destination_city_id}")
+    print(f"DEBUG: days type: {type(req.days)}, value: {req.days}")
+    print(f"DEBUG: budget_total type: {type(req.budget_total)}, value: {req.budget_total}")
+    
     # Ensure destination_city_id is an integer
     if isinstance(req.destination_city_id, str):
         try:
@@ -20,9 +25,11 @@ def create_itinerary(req: schemas.ItineraryRequest, db: Session = Depends(get_db
     try:
         itin = generate_itinerary(db, req)
     except ValueError as e:
+        print(f"DEBUG: ValueError in generate_itinerary: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         import traceback
+        print(f"DEBUG: Exception in generate_itinerary: {str(e)}")
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
 
