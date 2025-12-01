@@ -1,17 +1,53 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaUserPlus } from "react-icons/fa";
+import { registerUser } from "../api/auth";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
     confirmPass: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    // Validate passwords match
+    if (form.password !== form.confirmPass) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (form.password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await registerUser({
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
+      navigate("/login");
+    } catch (err) {
+      setError(err.message);
+      console.error("Register error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -64,7 +100,13 @@ export default function Register() {
         </div>
 
         {/* Form */}
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
+          {error && (
+            <div className="p-3 bg-red-500/80 border border-red-300 text-white rounded-lg text-sm">
+              {error}
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-white/90">
               Full Name
@@ -77,6 +119,8 @@ export default function Register() {
               className="w-full mt-1 px-4 py-3 rounded-lg bg-white/30 text-white placeholder-white/70 
                          focus:ring-2 focus:ring-blue-400 outline-none"
               placeholder="Your Name"
+              required
+              disabled={loading}
             />
           </div>
 
@@ -92,6 +136,8 @@ export default function Register() {
               className="w-full mt-1 px-4 py-3 rounded-lg bg-white/30 text-white placeholder-white/70 
                          focus:ring-2 focus:ring-blue-400 outline-none"
               placeholder="you@example.com"
+              required
+              disabled={loading}
             />
           </div>
 
@@ -107,6 +153,8 @@ export default function Register() {
               className="w-full mt-1 px-4 py-3 rounded-lg bg-white/30 text-white placeholder-white/70 
                          focus:ring-2 focus:ring-blue-400 outline-none"
               placeholder="•••••••••"
+              required
+              disabled={loading}
             />
           </div>
 
@@ -122,16 +170,20 @@ export default function Register() {
               className="w-full mt-1 px-4 py-3 rounded-lg bg-white/30 text-white placeholder-white/70 
                          focus:ring-2 focus:ring-blue-400 outline-none"
               placeholder="•••••••••"
+              required
+              disabled={loading}
             />
           </div>
 
           {/* Animated Button */}
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full bg-blue-600/80 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl shadow-lg"
+            whileHover={{ scale: loading ? 1 : 1.05 }}
+            whileTap={{ scale: loading ? 1 : 0.95 }}
+            className="w-full bg-blue-600/80 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            type="submit"
+            disabled={loading}
           >
-            Register
+            {loading ? "Creating Account..." : "Register"}
           </motion.button>
 
           <p className="text-center text-sm text-white/90 mt-3">

@@ -1,10 +1,31 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaPlaneDeparture } from "react-icons/fa";
+import { loginUser } from "../api/auth";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await loginUser({ email, password });
+      localStorage.setItem("user", JSON.stringify(res));
+      navigate("/");
+    } catch (err) {
+      setError("Invalid email or password");
+      console.error("Login error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-900 p-4">
@@ -52,7 +73,13 @@ export default function Login() {
           </p>
         </div>
 
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
+          {error && (
+            <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
+              {error}
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Email Address
@@ -63,6 +90,8 @@ export default function Login() {
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={loading}
             />
           </div>
 
@@ -76,16 +105,20 @@ export default function Login() {
               placeholder="•••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
+              disabled={loading}
             />
           </div>
 
           {/* Animated Button */}
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg"
+            whileHover={{ scale: loading ? 1 : 1.05 }}
+            whileTap={{ scale: loading ? 1 : 0.95 }}
+            className="w-full bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            type="submit"
+            disabled={loading}
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </motion.button>
 
           <p className="text-center text-sm text-gray-600 mt-3">

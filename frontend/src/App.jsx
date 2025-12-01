@@ -5,7 +5,8 @@ import ItineraryResult from "./pages/ItineraryResult";
 import Places from "./pages/Places";
 import About from "./pages/About";
 import Login from "./pages/Login";
-
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
 
 export default function App() {
   return (
@@ -13,9 +14,10 @@ export default function App() {
       <Navbar />
       <div className="min-h-screen bg-slate-100 pt-4 pb-10">
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/result" element={<ItineraryResult />} />
           <Route path="/places" element={<Places />} />
           <Route path="/about" element={<About />} />

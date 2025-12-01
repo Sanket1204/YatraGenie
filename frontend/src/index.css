@@ -1,7 +1,4 @@
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 
 :root {
@@ -74,9 +71,6 @@ button:focus-visible {
     background-color: #ff0000;
   }
 }
-
-bg-gradient-to-r from-blue-600 via-indigo-600 to-pink-500
-
 
 .input-premium {
   @apply w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 shadow-sm outline-none;
