@@ -10,6 +10,13 @@ router = APIRouter(prefix="/api/itineraries", tags=["itineraries"])
 
 @router.post("/", response_model=schemas.ItineraryResponse)
 def create_itinerary(req: schemas.ItineraryRequest, db: Session = Depends(get_db)):
+    # Ensure destination_city_id is an integer
+    if isinstance(req.destination_city_id, str):
+        try:
+            req.destination_city_id = int(req.destination_city_id)
+        except (ValueError, TypeError):
+            raise HTTPException(status_code=400, detail="Invalid destination_city_id")
+    
     try:
         itin = generate_itinerary(db, req)
     except ValueError as e:
@@ -18,18 +25,6 @@ def create_itinerary(req: schemas.ItineraryRequest, db: Session = Depends(get_db
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
-    
-    # Auto-detect if frontend accidentally sent a city name instead of ID
-    if isinstance(req.destination_city_id, str):
-         city = db.query(models.City).filter(
-        models.City.name.ilike(req.destination_city_id)
-    ).first()
-
-    if not city:
-        raise HTTPException(400, detail="Destination city not found")
-
-    req.destination_city_id = city.id
-
 
     city_name = itin.destination_city.name
     data = json.loads(itin.data)

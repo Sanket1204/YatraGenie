@@ -47,13 +47,17 @@ export default function SearchForm({ onSubmit }) {
           onChange={(e) => setOriginCity(e.target.value)}
           required
         />
-        <input
+        <select
           className="input-premium"
-          placeholder="Destination City ID (e.g. 1 = Goa)"
           value={destinationCityId}
           onChange={(e) => setDestinationCityId(e.target.value)}
           required
-        />
+        >
+          <option value="">Select Destination City</option>
+          <option value="1">Goa</option>
+          <option value="2">Jaipur</option>
+          <option value="3">Kerala</option>
+        </select>
         <input
           className="input-premium"
           type="number"
