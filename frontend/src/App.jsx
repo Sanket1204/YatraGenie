@@ -14,6 +14,7 @@ export default function App() {
       <div className="min-h-screen bg-slate-100 pt-4 pb-10">
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/home" element={<Home />} />
           <Route path="/result" element={<ItineraryResult />} />
           <Route path="/places" element={<Places />} />
