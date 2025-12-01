@@ -172,5 +172,6 @@ export default function SidebarDashboard() {
         </div>
       </div>
     </div>
+    
   );
 }

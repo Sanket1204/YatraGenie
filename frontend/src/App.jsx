@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import SidebarDashboard from "./pages/SidebarDashboard";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/result" element={<ItineraryResult />} />
           <Route path="/places" element={<Places />} />
           <Route path="/about" element={<About />} />
+          <Route path="/sidebar-dashboard" element={<SidebarDashboard />} />
         </Routes>
       </div>
     </>

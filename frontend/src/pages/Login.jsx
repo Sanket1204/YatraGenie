@@ -10,6 +10,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+    
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +19,7 @@ export default function Login() {
     try {
       const res = await loginUser({ email, password });
       localStorage.setItem("user", JSON.stringify(res));
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       setError("Invalid email or password");
       console.error("Login error:", err);
