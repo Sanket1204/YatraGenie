@@ -73,9 +73,57 @@ button:focus-visible {
 }
 
 .input-premium {
-  @apply w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 shadow-sm outline-none;
+  @apply w-full px-4 py-3 rounded-xl focus:border-blue-500 shadow-sm outline-none;
+  background: transparent;
+  color: #eef2ff;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.input-premium::placeholder {
+  color: rgba(255,255,255,0.6);
 }
 
 .tag-btn {
-  @apply px-4 py-2 rounded-full text-sm border shadow-sm transition;
+  @apply px-4 py-2 rounded-full text-sm border shadow-sm transition bg-white/5 text-white;
+}
+
+.hero-card {
+  background: linear-gradient(180deg, rgba(10,8,28,0.75), rgba(24,16,48,0.5));
+  border-radius: 1rem;
+  box-shadow: 0 20px 50px rgba(2,6,23,0.6);
+  border: 1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+}
+
+.hero-bg {
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(145,92,255,0.18), transparent 8%),
+              radial-gradient(1000px 500px at 90% 80%, rgba(255,102,51,0.08), transparent 10%),
+              linear-gradient(180deg,#2b0330 0%, #10021a 45%, #0b1220 100%);
+  background-attachment: fixed;
+}
+
+/* Global app background for theme */
+body {
+  background-image: radial-gradient(800px 400px at 8% 8%, rgba(145,92,255,0.06), transparent 8%),
+                    radial-gradient(700px 350px at 92% 85%, rgba(255,110,60,0.04), transparent 10%),
+                    linear-gradient(180deg,#120017 0%, #050816 60%, #071022 100%);
+  background-attachment: fixed;
+  background-color: #07060b;
+}
+
+.orange-btn {
+  background: linear-gradient(90deg,#ff9a3c,#ff6a00);
+  color: white;
+  box-shadow: 0 8px 20px rgba(255,110,40,0.24);
+}
+
+.card-dark {
+  background: linear-gradient(180deg, rgba(6,6,20,0.85), rgba(12,10,30,0.8));
+  border: 1px solid rgba(255,255,255,0.04);
+  color: #e6e6f0;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+}
+
+.pill {
+  display:inline-flex;align-items:center;padding:0.45rem 0.75rem;border-radius:999px;font-size:0.875rem;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);color:#f1f5f9
 }

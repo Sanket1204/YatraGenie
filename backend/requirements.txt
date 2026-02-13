@@ -3,3 +3,7 @@ uvicorn
 sqlalchemy
 pydantic
 python-multipart
+stripe==6.10.0
+requests
+python-dotenv
+razorpay

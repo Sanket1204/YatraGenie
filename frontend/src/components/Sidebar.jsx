@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   FaPlaneDeparture,
@@ -8,26 +7,21 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 
-export default function Sidebar({ isOpen, onClose, userName }) {
+export default function Sidebar({ isOpen, onClose, userName, position = "right" }) {
+  const isRight = position === "right";
   return (
     <>
       {/* Overlay */}
       {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={onClose}
-          className="fixed inset-0 bg-black/40 z-10"
-        />
+        <div onClick={onClose} className="fixed inset-0 bg-black/40 z-30" />
       )}
 
-      {/* Sidebar */}
-      <motion.div
-        initial={{ x: -250 }}
-        animate={{ x: isOpen ? 0 : -250 }}
-        transition={{ duration: 0.3 }}
-        className="fixed top-0 left-0 h-full w-60 bg-white/20 backdrop-blur-xl border-r border-white/30 p-6 z-20"
+      {/* Sidebar: translate fully off-screen when closed to avoid blocking clicks */}
+      <div
+        className={`fixed top-0 ${isRight ? 'right-0' : 'left-0'} h-full bg-white/20 backdrop-blur-xl p-6 z-40 transform transition-transform duration-300 ${
+          isOpen ? 'translate-x-0 w-60' : (isRight ? 'translate-x-full w-60 pointer-events-none' : '-translate-x-full w-60 pointer-events-none')
+        }`}
+        style={{ borderLeft: isRight ? '1px solid rgba(255,255,255,0.2)' : undefined, borderRight: !isRight ? '1px solid rgba(255,255,255,0.2)' : undefined }}
       >
         <div className="text-white text-xl font-bold flex items-center gap-2 mb-8">
           <FaPlaneDeparture /> YatraGenie
@@ -83,7 +77,7 @@ export default function Sidebar({ isOpen, onClose, userName }) {
             <FaSignOutAlt /> Logout
           </button>
         </nav>
-      </motion.div>
+      </div>
     </>
   );
 }

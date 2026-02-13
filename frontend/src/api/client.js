@@ -25,3 +25,16 @@ export async function createItinerary(payload) {
   }
   return res.json();
 }
+
+export async function getItineraryOptions(payload) {
+  const res = await fetch(`${BASE_URL}/api/itineraries/options`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const errorData = await res.text();
+    throw new Error(`Failed to get itinerary options: ${errorData}`);
+  }
+  return res.json();
+}

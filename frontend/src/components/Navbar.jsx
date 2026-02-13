@@ -11,11 +11,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
         {/* Logo */}
-        <Link
-          to="/"
-          className="text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
-        >
-          YatraGenie
+        <Link to="/" className="flex items-center space-x-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold shadow-md border border-white/30">YG</div>
+          <span className="text-2xl font-extrabold text-gray-900">YatraGenie</span>
         </Link>
 
         {/* Desktop Links */}
@@ -24,6 +22,8 @@ export default function Navbar() {
           <Link className="hover:text-blue-600 transition" to="/places">Places</Link>
           <Link className="hover:text-blue-600 transition" to="/about">About</Link>
         </div>
+
+        {/* sidebar position control removed */}
 
         {/* Mobile Menu Button */}
         <button className="md:hidden" onClick={() => setOpen(!open)}>

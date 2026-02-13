@@ -5,6 +5,7 @@ import SidebarToggle from "./components/SidebarToggle";
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
 import ItineraryResult from "./pages/ItineraryResult";
+import CheckoutSuccess from "./pages/CheckoutSuccess";
 import Places from "./pages/Places";
 import About from "./pages/About";
 import Login from "./pages/Login";
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
           <Route path="/result" element={<ItineraryResult />} />
+          <Route path="/checkout-success" element={<CheckoutSuccess />} />
           <Route path="/places" element={<Places />} />
           <Route path="/about" element={<About />} />
           <Route path="/sidebar-dashboard" element={<SidebarDashboard />} />

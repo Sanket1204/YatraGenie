@@ -29,6 +29,7 @@ class ItineraryRequest(BaseModel):
     origin_city: str
     destination_city_id: int
     days: int
+    people: int = 1
     budget_total: float
     traveler_type: Literal["solo", "couple", "family", "friends"]
     preferences: List[str]  # e.g. ["beach","nature","heritage"]
@@ -44,6 +45,10 @@ class ItineraryDayItem(BaseModel):
 class ItineraryDay(BaseModel):
     day: int
     items: List[ItineraryDayItem]
+    place_total: float = 0.0
+    accommodation_cost: float = 0.0
+    surcharge: float = 0.0
+    day_total: float = 0.0
 
 
 class ItineraryResponse(BaseModel):
@@ -54,6 +59,23 @@ class ItineraryResponse(BaseModel):
     days: List[ItineraryDay]
     city_name: str
     budget_fit: str  # "UNDER BUDGET", "CLOSE TO BUDGET", "OVER BUDGET"
+
+    class Config:
+        orm_mode = True
+
+
+class ItineraryOption(BaseModel):
+    variant: str
+    summary: str
+    budget_total: float
+    estimated_total_cost: float
+    days: List[ItineraryDay]
+    city_name: str
+    budget_fit: str
+
+
+class ItineraryOptionsResponse(BaseModel):
+    options: List[ItineraryOption]
 
     class Config:
         orm_mode = True

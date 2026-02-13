@@ -5,6 +5,8 @@ import json
 from .. import schemas, models
 from ..deps import get_db
 from ..services.itinerary_generator import generate_itinerary
+from ..services.itinerary_generator import generate_itinerary_preview
+from ..schemas import ItineraryOptionsResponse
 
 router = APIRouter(prefix="/api/itineraries", tags=["itineraries"])
 
@@ -44,6 +46,19 @@ def create_itinerary(req: schemas.ItineraryRequest, db: Session = Depends(get_db
         city_name=city_name,
         budget_fit=data["budget_fit"],
     )
+
+
+@router.post("/options", response_model=ItineraryOptionsResponse)
+def get_itinerary_options(req: schemas.ItineraryRequest, db: Session = Depends(get_db)):
+    # produce a few variants for users to choose from
+    try:
+        opts = []
+        for variant in ["budget", "balanced", "premium"]:
+            preview = generate_itinerary_preview(db, req, variant)
+            opts.append(preview)
+        return ItineraryOptionsResponse(options=opts)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/{itinerary_id}", response_model=schemas.ItineraryResponse)
