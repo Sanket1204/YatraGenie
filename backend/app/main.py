@@ -19,7 +19,7 @@ app = FastAPI(
 )
 
 origins = [
-    "http://localhost:5173",  # Vite dev server
+    "http://Alocalhost:5173",  # Vite dev server
     "http://localhost:5174",  # Vite dev server (fallback port)
     "http://localhost:3000",
     # add your deployed frontend URLs here
