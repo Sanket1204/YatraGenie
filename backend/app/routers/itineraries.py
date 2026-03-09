@@ -11,16 +11,11 @@ router = APIRouter(prefix="/api/itineraries", tags=["itineraries"])
 @router.post("/", response_model=schemas.ItineraryResponse)
 def create_itinerary(req: schemas.ItineraryRequest, db: Session = Depends(get_db)):
     print(f"DEBUG: Received request: {req}")
-    print(f"DEBUG: destination_city_id type: {type(req.destination_city_id)}, value: {req.destination_city_id}")
+    print(f"DEBUG: destination_city type: {type(req.destination_city)}, value: {req.destination_city}")
     print(f"DEBUG: days type: {type(req.days)}, value: {req.days}")
     print(f"DEBUG: budget_total type: {type(req.budget_total)}, value: {req.budget_total}")
     
-    # Ensure destination_city_id is an integer
-    if isinstance(req.destination_city_id, str):
-        try:
-            req.destination_city_id = int(req.destination_city_id)
-        except (ValueError, TypeError):
-            raise HTTPException(status_code=400, detail="Invalid destination_city_id")
+    # We now accept string destination_city, so no integer check is needed.
     
     try:
         itin = generate_itinerary(db, req)

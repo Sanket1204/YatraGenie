@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import SidebarToggle from "./components/SidebarToggle";
@@ -15,6 +15,9 @@ import SidebarDashboard from "./pages/SidebarDashboard";
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userName, setUserName] = useState(null);
+  const location = useLocation();
+
+  const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
 
   useEffect(() => {
     const stored = localStorage.getItem("user");
@@ -30,10 +33,11 @@ export default function App() {
 
   return (
     <>
-      <Navbar />
-      <SidebarToggle onClick={() => setSidebarOpen(!sidebarOpen)} isOpen={sidebarOpen} />
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} userName={userName} />
-      <div className="min-h-screen bg-slate-100 pt-4 pb-10">
+      {!isAuthPage && <Navbar userName={userName} />}
+      {!isAuthPage && <SidebarToggle onClick={() => setSidebarOpen(!sidebarOpen)} isOpen={sidebarOpen} />}
+      {!isAuthPage && <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} userName={userName} />}
+      
+      <div className={`min-h-screen bg-slate-100 ${!isAuthPage ? "pt-4 pb-10" : ""}`}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />

@@ -14,9 +14,23 @@ export default function SidebarToggle({ onClick, isOpen }) {
   return (
     <motion.button
       onClick={onClick}
-      whileHover={{ scale: 1.1 }}
+      whileHover={{ scale: 1.1, backgroundColor: "rgba(255,255,255,0.4)" }}
       whileTap={{ scale: 0.95 }}
-      className="fixed top-5 left-3 z-50 text-white text-3xl bg-white/20 hover:bg-white/30 backdrop-blur-xl p-3 rounded-xl border border-white/30 transition"
+      animate={
+        !isOpen
+          ? {
+              boxShadow: [
+                "0px 0px 0px rgba(236,72,153,0)",
+                "0px 0px 15px rgba(236,72,153,0.5)",
+                "0px 0px 0px rgba(236,72,153,0)"
+              ],
+            }
+          : { boxShadow: "none" }
+      }
+      transition={{ repeat: !isOpen ? Infinity : 0, duration: 2 }}
+      className={`fixed top-5 left-5 z-[80] text-white text-3xl p-3 border rounded-xl backdrop-blur-xl transition-colors ${
+        isOpen ? "bg-white/10 hover:bg-white/20 border-white/10" : "bg-indigo-600/80 hover:bg-indigo-500 border-indigo-400"
+      }`}
       title={isOpen ? "Close Sidebar" : "Open Sidebar"}
     >
       <FaBars />

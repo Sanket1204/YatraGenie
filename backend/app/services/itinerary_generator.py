@@ -58,9 +58,67 @@ def distribute_places_across_days(
 
 
 def generate_itinerary(db: Session, req: schemas.ItineraryRequest) -> models.Itinerary:
-    city = db.query(models.City).get(req.destination_city_id)
+    city_name = req.destination_city.strip().title()
+    city = db.query(models.City).filter(models.City.name.ilike(city_name)).first()
+    
     if not city:
-        raise ValueError("Destination city not found")
+        # Create a new city entry
+        city = models.City(
+            name=city_name,
+            state="Unknown",
+            country="India",
+            avg_daily_cost_backpacker=1500.0,
+            avg_daily_cost_midrange=4000.0,
+            avg_daily_cost_comfort=10000.0
+        )
+        db.add(city)
+        db.commit()
+        db.refresh(city)
+
+        # Scrape places from SerpApi
+        try:
+            import requests
+            SERPAPI_KEY = "5a2ec6403820e3bbf5ad80c94ad6baa814359fd20f51813f22c325201e8820e0"
+            url = "https://serpapi.com/search"
+            
+            # Fetch normal attractions
+            params = {
+                "engine": "google_local",
+                "q": f"places to visit in {city_name}",
+                "api_key": SERPAPI_KEY,
+                "gl": "in",
+                "hl": "en"
+            }
+            res = requests.get(url, params=params, timeout=10)
+            if res.ok:
+                data = res.json()
+                for item in data.get("local_results", []):
+                    # Assign a random category tag matching typical preferences
+                    cat_map = {"Museum": "heritage", "Park": "nature", "Temple": "temple", "Beach": "beach"}
+                    item_type = item.get("type", "Attraction")
+                    tag = "heritage"
+                    for k, v in cat_map.items():
+                        if k.lower() in item_type.lower():
+                            tag = v
+                            break
+                            
+                    p = models.Place(
+                        name=item.get("title", "Unknown"),
+                        city_id=city.id,
+                        category=item_type,
+                        tags=tag,
+                        approx_visit_cost=0.0,
+                        description=item.get("description", "")
+                    )
+                    db.add(p)
+                db.commit()
+                
+        except Exception as e:
+            print(f"DEBUG: SerpApi fetch failed: {e}")
+            pass
+
+    if not city:
+        raise ValueError("Destination city could not be created/found")
 
     budget_per_day = req.budget_total / req.days
     budget_tier = determine_budget_tier(city, budget_per_day)

@@ -25,3 +25,11 @@ export async function createItinerary(payload) {
   }
   return res.json();
 }
+
+export async function searchExternalPlaces(query) {
+  const url = new URL(`${BASE_URL}/api/external/search`);
+  url.searchParams.append("query", query);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Failed to fetch external live places");
+  return res.json();
+}

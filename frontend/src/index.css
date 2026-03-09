@@ -73,7 +73,9 @@ button:focus-visible {
 }
 
 .input-premium {
-  @apply w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 shadow-sm outline-none;
+  /* ensure inputs and select dropdowns show readable text
+     especially on light backgrounds (e.g. when the form is overlaid) */
+  @apply w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-blue-500 shadow-sm outline-none text-black;
 }
 
 .tag-btn {

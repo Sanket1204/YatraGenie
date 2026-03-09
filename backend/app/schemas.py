@@ -27,7 +27,7 @@ class PlaceSearchQuery(BaseModel):
 class ItineraryRequest(BaseModel):
     user_name: Optional[str] = None
     origin_city: str
-    destination_city_id: int
+    destination_city: str
     days: int
     budget_total: float
     traveler_type: Literal["solo", "couple", "family", "friends"]
