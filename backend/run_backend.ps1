@@ -7,7 +7,7 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $venvActivate = Join-Path $scriptDir "..\venv\Scripts\Activate.ps1"
 if (Test-Path $venvActivate) {
     Write-Host "Activating venv: $venvActivate"
-    & $venvActivate
+    . $venvActivate
 } else {
     Write-Host "No venv activation script found at $venvActivate - continuing without activation"
 }

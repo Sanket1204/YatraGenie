@@ -4,13 +4,18 @@ import {
   FaMapMarkedAlt,
   FaRoute,
   FaBookmark,
+  FaCrown,
+  FaTimes
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import PaymentWizard from "../components/PaymentWizard";
 
 export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
   const navigate = useNavigate();
 
   // Auth check
@@ -130,17 +135,45 @@ export default function Dashboard() {
           variants={itemVariants}
           whileHover={{ scale: 1.05, y: -10, boxShadow: "0 25px 50px -12px rgba(99, 102, 241, 0.25)" }}
           whileTap={{ scale: 0.98 }}
-          onClick={() => navigate("/saved-trips")}
-          className="bg-white rounded-[2rem] p-8 shadow-xl border border-indigo-50 cursor-pointer overflow-hidden group relative opacity-70 hover:opacity-100 transition-opacity"
+          onClick={() => setShowPremiumModal(true)}
+          className="bg-gradient-to-br from-indigo-900 to-purple-900 rounded-[2rem] p-8 shadow-xl cursor-pointer overflow-hidden group relative text-white"
         >
-          <div className="absolute top-0 right-0 w-32 h-32 bg-green-100 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
-          <FaBookmark className="text-5xl mb-6 text-emerald-500 relative z-10 drop-shadow-sm" />
-          <h3 className="text-2xl font-extrabold text-indigo-950 mb-3 relative z-10 group-hover:text-indigo-600 transition-colors">Saved Trips</h3>
-          <p className="text-slate-500 font-medium relative z-10 text-sm md:text-base">
-            View your saved itineraries anytime (Coming Soon).
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 rounded-bl-full -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
+          <FaCrown className="text-5xl mb-6 text-yellow-400 relative z-10 drop-shadow-sm" />
+          <h3 className="text-2xl font-extrabold mb-3 relative z-10 text-yellow-400">YatraGenie Pro</h3>
+          <p className="text-white/80 font-medium relative z-10 text-sm md:text-base">
+            Upgrade to premium for ₹999 to unlock priority AI parsing, unlimited searches, and exclusive hotel deals.
           </p>
         </motion.div>
       </motion.div>
+
+      <AnimatePresence>
+        {showPremiumModal && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 30, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 30, opacity: 0 }}
+              className="relative w-full max-w-md"
+            >
+              <button 
+                onClick={() => setShowPremiumModal(false)}
+                className="absolute -top-10 right-0 text-white hover:text-red-400 transition-colors z-10 p-2"
+              >
+                <FaTimes size={24} />
+              </button>
+              <PaymentWizard amount={999} onSuccess={() => {
+                setTimeout(() => setShowPremiumModal(false), 2000);
+              }} />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

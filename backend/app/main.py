@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .database import Base, engine
-from .routers import places, itineraries, health, external
+from .routers import places, itineraries, health, external, payment
 from . import model as models
 from .routers import auth
 
@@ -37,3 +37,4 @@ app.include_router(itineraries.router)
 app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(external.router)
+app.include_router(payment.router)
