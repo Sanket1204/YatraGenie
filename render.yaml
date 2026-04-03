@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: yatragenie-backend
+    env: python
+    rootDir: backend
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: RAZORPAY_KEY_ID
+        value: "rzp_test_SYy7u1mZ0SjXdd"
+      - key: RAZORPAY_KEY_SECRET
+        value: "CAgoaWqzD9eiAH0il5Zo8fx2"

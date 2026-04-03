@@ -8,13 +8,14 @@ export default function PaymentWizard({ amount, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
   const handlePayment = async () => {
     setLoading(true);
     setErrorMsg("");
     try {
       // 1. Create order on backend
-      const res = await fetch("http://localhost:8000/payment/create-order", {
+      const res = await fetch(`${API_URL}/payment/create-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: amount, currency: "INR", receipt: "rcptid_11" })
@@ -35,7 +36,7 @@ export default function PaymentWizard({ amount, onSuccess }) {
         handler: async (response) => {
           try {
             // 3. Verify Payment Signature
-            const verifyRes = await fetch("http://localhost:8000/payment/verify", {
+            const verifyRes = await fetch(`${API_URL}/payment/verify`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({

@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export async function searchPlaces(params = {}) {
   const url = new URL(`${BASE_URL}/api/places/search`);
