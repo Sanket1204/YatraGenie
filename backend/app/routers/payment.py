@@ -8,8 +8,8 @@ router = APIRouter(
     tags=["payment"],
 )
 
-RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "rzp_test_SYy7u1mZ0SjXdd")
-RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET", "CAgoaWqzD9eiAH0il5Zo8fx2")
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
 
 try:
     razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))

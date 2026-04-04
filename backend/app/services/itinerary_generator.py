@@ -1,7 +1,11 @@
 import json
+import os
 from typing import List, Tuple
 from sqlalchemy.orm import Session
 from .. import models, schemas
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def determine_budget_tier(city: models.City, budget_per_day: float) -> str:
     diff_backpacker = abs(budget_per_day - city.avg_daily_cost_backpacker)
@@ -78,7 +82,7 @@ def generate_itinerary(db: Session, req: schemas.ItineraryRequest) -> models.Iti
         # Scrape places from SerpApi
         try:
             import requests
-            SERPAPI_KEY = "5a2ec6403820e3bbf5ad80c94ad6baa814359fd20f51813f22c325201e8820e0"
+            SERPAPI_KEY = os.getenv("SERPAPI_KEY")
             url = "https://serpapi.com/search"
             
             # Fetch normal attractions

@@ -8,7 +8,7 @@ export default function PaymentWizard({ amount, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+  const API_URL = import.meta.env.VITE_API_URL || "https://yatragenie-backend.onrender.com";
 
   const handlePayment = async () => {
     setLoading(true);

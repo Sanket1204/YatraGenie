@@ -3,9 +3,10 @@ import requests
 import json
 import logging
 
-# Hardcoding API key for now per the implementation plan. 
-# In production, this should come from environment variables.
-SERPAPI_KEY = "5a2ec6403820e3bbf5ad80c94ad6baa814359fd20f51813f22c325201e8820e0"
+import os
+
+# SerpApi key from environment variables.
+SERPAPI_KEY = os.getenv("SERPAPI_KEY", "5a2ec6403820e3bbf5ad80c94ad6baa814359fd20f51813f22c325201e8820e0")
 
 router = APIRouter(prefix="/api/external", tags=["external"])
 logger = logging.getLogger(__name__)

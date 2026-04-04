@@ -7,3 +7,4 @@ razorpay
 passlib
 bcrypt==3.2.2
 email_validator
+python-dotenv
